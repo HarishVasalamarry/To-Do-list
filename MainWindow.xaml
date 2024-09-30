@@ -1,0 +1,175 @@
+﻿<Window x:Class="TextWidgetApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:TextWidgetApp"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Text Widget"
+        Width="400"
+        Height="300"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+    <!-- Root element is the Border (TextWidgetBorder) -->
+    <Border x:Name="TextWidgetBorder"
+            Background="Transparent"
+            BorderBrush="Gray"
+            BorderThickness="0"
+            Cursor="Arrow"
+            MouseLeftButtonDown="TextWidgetBorder_MouseLeftButtonDown">
+        <Grid>
+            <!-- Horizontal Grid Lines (initially collapsed) -->
+            <Canvas x:Name="GridLinesCanvas" IsHitTestVisible="False" Visibility="Collapsed">
+                <!-- Grid lines will be generated dynamically -->
+            </Canvas>
+
+            <!-- RichTextBox for advanced text formatting -->
+            <!-- Add bottom margin to make space for controls -->
+            <RichTextBox x:Name="TextWidget"
+                         Background="Transparent"
+                         Foreground="Black"
+                         FontSize="16"
+                         FontFamily="Arial"
+                         BorderThickness="0"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         Margin="0,0,0,40"
+                         MouseDoubleClick="TextWidget_MouseDoubleClick"
+                         PreviewMouseLeftButtonDown="TextWidget_PreviewMouseLeftButtonDown"
+                         TextChanged="TextWidget_TextChanged"
+                         SelectionChanged="TextWidget_SelectionChanged">
+                <!-- Initial Text -->
+                <FlowDocument>
+                    <Paragraph>
+                        Double-click to edit this text.
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+
+            <!-- Pen Icon inside the text box (Updated from Pencil) -->
+            <Button x:Name="PenButton"
+                    Width="30"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="PenButton_Click">
+                <!-- Use Path for the pen icon -->
+                <Viewbox Stretch="Uniform">
+                    <Canvas Width="24" Height="24">
+                        <!-- Updated pen-shaped path data -->
+                        <Path Fill="Green" Data="M12,2 L14,4 L5,13 L3,14 L4,12 Z M14,4 L16,6 L9,13 L7,11 Z M4,14 L2,16 L3,17 L5,15 Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Button>
+
+            <!-- Close Button inside the text box -->
+            <Button x:Name="CloseButton"
+                    Content="X"
+                    Width="30"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,35,0,0"
+                    Background="Transparent"
+                    Foreground="Red"
+                    BorderBrush="Transparent"
+                    Click="CloseButton_Click"/>
+
+            <!-- Tick Symbol Button (Done Button) -->
+            <Button x:Name="DoneButton"
+                    Width="30"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,70,0,0"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="DoneButton_Click"
+                    Visibility="Collapsed">
+                <!-- Tick Icon -->
+                <Viewbox Stretch="Uniform">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="Green" Data="M9,16.17 L4.83,12 L3.41,13.41 L9,19 L21,7 L19.59,5.59 L9,16.17 Z"/>
+                    </Canvas>
+                </Viewbox>
+            </Button>
+
+            <!-- Resize Thumb -->
+            <Thumb x:Name="ResizeThumb"
+                   Width="10"
+                   Height="10"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"
+                   Cursor="SizeNWSE"
+                   DragDelta="ResizeThumb_DragDelta"
+                   Visibility="Collapsed"/>
+
+            <!-- Controls Panel (initially collapsed) -->
+            <StackPanel x:Name="ControlsPanel"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        Margin="10,0,10,5"
+                        Visibility="Collapsed">
+                <!-- Removed Font Color Label -->
+
+                <!-- Color Button -->
+                <Button x:Name="ColorButton"
+                        Content="Color"
+                        Width="60"
+                        Height="25"
+                        Click="ColorButton_Click"/>
+                <!-- Color Popup -->
+                <Popup x:Name="ColorPopup"
+                       PlacementTarget="{Binding ElementName=ColorButton}"
+                       Placement="Bottom"
+                       StaysOpen="False">
+                    <Border Background="White" BorderBrush="Gray" BorderThickness="1">
+                        <UniformGrid Columns="5">
+                            <!-- Define color rectangles -->
+                            <Rectangle Fill="Black" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Red" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Green" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Blue" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Yellow" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Orange" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Purple" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Brown" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Gray" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <Rectangle Fill="Pink" Width="30" Height="30" MouseLeftButtonDown="ColorRectangle_MouseLeftButtonDown"/>
+                            <!-- Add more colors as needed -->
+                        </UniformGrid>
+                    </Border>
+                </Popup>
+
+                <!-- Font Size -->
+                <Label Content="Font Size:"
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"
+                       Background="Transparent"/>
+                <TextBox x:Name="FontSizeInput"
+                         Text="16"
+                         Width="50"
+                         TextChanged="FontSizeInput_TextChanged"/>
+
+                <!-- Font Style -->
+                <Label Content="Font Style:"
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"
+                       Background="Transparent"/>
+                <ComboBox x:Name="FontStylePicker"
+                          Width="150"
+                          SelectionChanged="FontStylePicker_SelectionChanged">
+                    <ComboBoxItem Content="Arial"
+                                  IsSelected="True"/>
+                    <ComboBoxItem Content="Courier New"/>
+                    <ComboBoxItem Content="Georgia"/>
+                    <ComboBoxItem Content="Times New Roman"/>
+                    <!-- Add more fonts as needed -->
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
