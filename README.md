@@ -2,6 +2,20 @@
 
 A feature-rich WPF application for managing your daily tasks with customizable text formatting and intuitive controls.
 
+## Application Modes
+
+### Application in Edit Mode 
+<img src="screenshots/edit_mode.png" alt="Edit Mode" width="20%">
+
+When the application is opened, it starts in edit mode by default, where you can type, edit, and manage tasks.
+
+### Application in Invisible Mode
+<img src="screenshots/invisible_mode.png" alt="Invisible Mode" width="20%">
+
+After finishing editing tasks, you can hide the controls, leaving only the task text visible.
+
+
+
 ## Table of Contents
 
 - [About the Project](#about-the-project)
